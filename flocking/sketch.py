@@ -1,4 +1,5 @@
 from random import randrange
+from p5.core.constants import P2D
 
 from p5.core.primitives import circle
 from flocking.flock.flock import Flock
@@ -7,7 +8,7 @@ from flocking.const.constants import WIDTH, HEIGHT
 
 
 
-flock = Flock(2)
+flock = Flock(50)
 
 def setup():
 	p5.size(WIDTH, HEIGHT)
@@ -29,16 +30,12 @@ def draw():
 
 
 	flock.show()
-	#print(frame_rate)
-	#print(particle.position, particle.velocity, particle.acceleration)
 
 #def key_pressed(event):
 #    p5.background(204)
 
-#p5.run(frame_rate = 30)
 if __name__ == '__main__':
-	p5.run(frame_rate=20)
-#p5.run(frame_rate = 30)
+	p5.run(frame_rate=20, mode=P2D)
 
 def start_local():
 	p5.run(frame_rate=30)
