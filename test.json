@@ -1,0 +1,44 @@
+{
+	"particles": [
+		{
+			"id": 0,
+			"position": [
+				"231.60974",
+				"208.31026"
+			],
+			"velocity": [
+				"-4.9686847",
+				"0.5587255"
+			],
+			"acceleration": [
+				"0.0",
+				"0.0"
+			],
+			"maxForce": "0.2",
+			"maxSpeed": "5",
+			"perception": "80",
+			"free_space": "24.0",
+			"perception_arc": "3.9269908169872414"
+		},
+		{
+			"id": 1,
+			"position": [
+				"171.71039",
+				"497.4546"
+			],
+			"velocity": [
+				"-3.053141",
+				"-3.9595869"
+			],
+			"acceleration": [
+				"0.0",
+				"0.0"
+			],
+			"maxForce": "0.2",
+			"maxSpeed": "5",
+			"perception": "80",
+			"free_space": "24.0",
+			"perception_arc": "3.9269908169872414"
+		}
+	]
+}

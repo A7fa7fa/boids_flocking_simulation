@@ -1,0 +1,15 @@
+
+
+multiplier = 1
+
+WIDTH = 1280/multiplier #x
+HEIGHT = 640/multiplier #y
+
+
+MULT_ALIGNMENT = 1.0
+MULT_COHESION = 1.3
+MULT_SEPARATION = 1.5
+PERCEPTION_RADIUS = 150
+
+DRAW_PERCEPTION = False
+
