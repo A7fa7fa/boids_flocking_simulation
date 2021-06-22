@@ -138,11 +138,11 @@ function encode_string(str){
 
 
 function intFromBytes(array) {
-    var value = 0;
-    for (var i = 0; i < array.length; i++) {
-        value = (value * 256) + array[i];
-    }
-    return value;
+	var value = 0;
+	for (var i = 0; i < array.length; i++) {
+		value = (value * 256) + array[i];
+	}
+	return value;
 }
 
 function decode_string(bstr){

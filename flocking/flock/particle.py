@@ -1,4 +1,3 @@
-
 from random import randrange
 from p5.core.attribs import fill, no_fill, stroke_weight, stroke
 from p5.core.constants import CENTER
@@ -37,9 +36,18 @@ class Particle():
 	def dictify(self):
 		dic = {
 			'id': self.id, 
-			'position': [str(self.position.x), str(self.position.y)],
-			'velocity': [str(self.velocity.x), str(self.velocity.y)],
-			'acceleration': [str(self.acceleration.x), str(self.acceleration.y)],
+			'position': { 
+						'x': str(self.position.x), 
+						'y': str(self.position.y)
+						},
+			'velocity': { 
+						'x': str(self.velocity.x), 
+						'y': str(self.velocity.y)
+						},
+			'acceleration': { 
+						'x': str(self.acceleration.x), 
+						'y': str(self.acceleration.y)
+						},
 			'maxForce': str(self.maxForce),
 			'maxSpeed': str(self.maxSpeed),
 			'perception': str(self.perception),
@@ -137,22 +145,37 @@ class Particle():
 
 
 
-	def in_perception(self, other):
-		if self.id == other.id: return False # if other particle is me return false
-		dis = self.position.distance(other.position)
-		if dis > self.perception: return False	# if distance to other particle is farther than perception return false
-		if dis < self.free_space: return True
+	def in_perception(self, other, disSq):
+		if (self.id == other.id # if other particle is me return false
+			or disSq > (self.perception * self.perception)): # if distance to other particle is farther than perception return false 
+			return False
+
+		# if other particle is inside of free_space return treu
+		elif disSq < (self.free_space * self.free_space): 
+			return True
+
+		# if other particle is ouside of perception
+		elif disSq > (self.perception * self.perception):
+			return False
 		
-		v_to_other = other.position - self.position #vector from this position to other position 
+		# if position is inside of perception
+		else:			
+			v_to_other = other.position - self.position #vector from this position to other position 
 
-		if v_to_other.angle > self.start_perception() and v_to_other.angle < self.end_perception(): return True
-		else: False
+			# and position is inside of angle of perception
+			# return True
+			# else false
+			if v_to_other.angle > self.start_perception() and v_to_other.angle < self.end_perception(): return True
+			else: return False
+
+	def getSquaredDistance(self, other):
+		xDiff = (other.position.x - self.position.x) * (other.position.x - self.position.x)
+		yDiff = (other.position.y - self.position.y) * (other.position.y - self.position.y)
+		sqDist = xDiff + yDiff 
+		return sqDist
 
 
-
-
-
-	def flocking(self, flock):
+	def flocking(self, qTree):
 		# align
 		avg_velocity = Vector(0, 0)
 		# cohesion
@@ -161,17 +184,22 @@ class Particle():
 		avg_sepa = Vector(0, 0)
 
 		percived_neighbor = 0
-		for particle in flock:
-			dis = self.position.distance(particle.position)
-			if self.in_perception(other=particle):
+
+
+		other_points = qTree.queryRactangle(self.position.x, self.position.y, self.perception)
+		#print(len(other_points))
+		for other in other_points:
+			disSq = self.getSquaredDistance(other.userData)
+			#dis = self.position.distance(other.userData.position)
+			if self.in_perception(other=other.userData, disSq = disSq):
 			#if dis < self.perception and particle.id != self.id:
 				# align
-				avg_velocity += particle.velocity
+				avg_velocity += other.userData.velocity
 				# cohision
-				avg_position += particle.position
+				avg_position += other.userData.position
 				# separation
-				diff = self.position - particle.position # get a vector that is pointing away from local flockmate
-				diff /= (dis * dis)  # inversly proportional to distance. there farther away it is, the lower is the magnitde
+				diff = self.position - other.userData.position # get a vector that is pointing away from local flockmate
+				diff /= (disSq * disSq)  # inversly proportional to distance. there farther away it is, the lower is the magnitde
 				avg_sepa += diff
 
 				percived_neighbor += 1

@@ -3,7 +3,7 @@ from networking.server import server
 
 def run():
 	# create flock
-	flock = Flock(100)
+	flock = Flock(50)
 	
 	# start sock server and pass flock into it and await connection
 	server(flock=flock)

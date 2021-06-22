@@ -1,14 +1,14 @@
 from random import randrange
 from p5.core.constants import P2D
-
 from p5.core.primitives import circle
-from flocking.flock.flock import Flock
 import p5
+
 from flocking.const.constants import WIDTH, HEIGHT
+from flocking.flock.flock import Flock
 
 
 
-flock = Flock(50)
+flock = Flock(40)
 
 def setup():
 	p5.size(WIDTH, HEIGHT)
